@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "ReleaseCreator": {
+      "commandName": "Project",
+      "commandLineArgs": "TestRelease_PROJ_13.0.030 test 8.0.6 test ORA"
+    }
+  }
+}

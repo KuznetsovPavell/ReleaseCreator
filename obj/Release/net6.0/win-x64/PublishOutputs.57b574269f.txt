@@ -1,0 +1,9 @@
+D:\Solutions\CSharp\ReleaseOUT\ReleaseCreator.pdb
+D:\Solutions\CSharp\ReleaseOUT\Bars.GitUtils.exe
+D:\Solutions\CSharp\ReleaseOUT\Bars.GitUtils.deps.json
+D:\Solutions\CSharp\ReleaseOUT\Bars.GitUtils.runtimeconfig.json
+D:\Solutions\CSharp\ReleaseOUT\params.json
+D:\Solutions\CSharp\ReleaseOUT\git2-106a5f2.dll
+D:\Solutions\CSharp\ReleaseOUT\git2-106a5f2.pdb
+D:\Solutions\CSharp\ReleaseOUT\Bars.GitUtils.pdb
+D:\Solutions\CSharp\ReleaseOUT\ReleaseCreator.exe

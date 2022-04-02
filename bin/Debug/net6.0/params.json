@@ -1,0 +1,210 @@
+﻿{
+	//"jira_url": "https://jira.unity-bars.com:8442",
+	"jira_url": "https://jira.unity-bars.com",
+	"jira_login": "pavlo.kuznetsov",
+	"jira_pass": "+Zse4M55(",
+	"gmail_login": "gmailLog",
+	"gmail_pass": "gmailPwd",
+	"git_repo_dir": "C:\\Git\\obuabs\\mmfo",     // For Oracle
+	//"git_repo_dir": "C:\\Git\\publicisgroupe.sql", // For Postgres
+	"releases_dir": "D:\\Solutions\\CSharp\\Release",
+	"task_file": "task_list.txt",
+	"ord_list_obj_psql": "tables, types, materializedviews, views, procedures",
+	"dbconnect": [
+		{
+			"target_branch": "test",
+			"release_name": "TestRelease",
+			"postgres": {
+				"db_name": "db_postgres",
+				"host": "localhost",
+				"port": "5432",
+				"login": "log_postgres",
+				"pass": "pass_postgres"
+			},
+			"oracle": {
+				"db_name": "OBMMFOT"
+			}
+		},
+		{
+			"target_branch": "sdo",
+			"release_name": "Test_update",
+			"postgres": {
+				"db_name": "devopsdb",
+				"host": "172.20.21.211",
+				"port": "5435",
+				"login": "log_sdo",
+				"pass": "pass_sdo"
+			},
+			"oracle": {
+				"db_name": "OBMMFOSDO"
+			}
+		},
+		{
+			"target_branch": "rc_test",
+			"release_name": "Release",
+			"postgres": {
+				"db_name": "db_postgres",
+				"host": "localhost",
+				"port": "5435",
+				"login": "log_postgres",
+				"pass": "pass_postgres"
+			},
+			"oracle": {
+				"db_name": "OBMMFORC"
+			}
+		},
+		{
+			"target_branch": "master",
+			"release_name": "BugFix",
+			"postgres": {
+				"db_name": "db_postgres",
+				"host": "localhost",
+				"port": "5433",
+				"login": "log_postgres",
+				"pass": "pass_postgres"
+			},
+			"oracle": {
+				"db_name": "OBMMFOM"
+			}
+		},
+		{
+			"target_branch": "bugfix",
+			"release_name": "BugFix",
+			"postgres": {
+				"db_name": "db_postgres",
+				"host": "localhost",
+				"port": "5433",
+				"login": "log_postgres",
+				"pass": "pass_postgres"
+			},
+			"oracle": {
+				"db_name": "OBMMFOM"
+			}
+
+		},
+		{
+			"target_branch": "dev",
+			"release_name": "dev",
+			"postgres": {
+				"db_name": "postgres",
+				"host": "localhost",
+				"port": "5432",
+				"login": "postgres",
+				"pass": "postgres"
+			}
+		}
+	],
+	"project": [
+		{
+			"project_name": "BARSVAL"
+		},
+		{
+			"project_name": "CBD"
+		},
+		{
+			"project_name": "CORP2",
+			"schems_list": [
+				{
+					"schem": "SYS",
+					"pass": "manager2"
+				},
+				{
+					"schem": "CORE",
+					"pass": "core"
+				},
+				{
+					"schem": "BANK",
+					"pass": "bank"
+				}
+			]
+		},
+		{
+			"project_name": "CRKR"
+		},
+		{
+			"project_name": "CRNV"
+		},
+		{
+			"project_name": "MMFO",
+			"directory": [ "web_rozdrib", "web", "sql" ],
+			"schems_list": [
+				{
+					"schem": "SYS",
+					"pass": "manager2"
+				},
+				{
+					"schem": "BARS",
+					"pass": "barsbars"
+				},
+				{
+					"schem": "BARSUPL",
+					"pass": "barsupl"
+				},
+				{
+					"schem": "BARS_DM",
+					"pass": "bars_dm"
+				},
+				{
+					"schem": "DM",
+					"pass": "dm"
+				},
+				{
+					"schem": "PFU",
+					"pass": "pfu"
+				},
+				{
+					"schem": "SBON",
+					"pass": "sbon"
+				},
+				{
+					"schem": "MGW_AGENT",
+					"pass": "mgw_agent"
+				},
+				{
+					"schem": "BARSAQ",
+					"pass": "barsaq"
+				},
+				{
+					"schem": "BARSTRANS",
+					"pass": "barstrans"
+				},
+				{
+					"schem": "BARS_INTGR",
+					"pass": "bars_intgr"
+				},
+				{
+					"schem": "FINMON",
+					"pass": "finmon"
+				},
+				{
+					"schem": "FINMONIC",
+					"pass": "finmonic"
+				},
+				{
+					"schem": "MSP",
+					"pass": "msp"
+				},
+				{
+					"schem": "SYSTEM",
+					"pass": "system"
+				},
+				{
+					"schem": "NBU_GATEWAY",
+					"pass": "nbu_gateway"
+				},
+				{
+					"schem": "CBD",
+					"pass": "cbd"
+				},
+				{
+					"schem": "BILLS",
+					"pass": "bills"
+				},
+				{
+					"schem": "BARSOS",
+					"pass": "barsos"
+				}
+			]
+		}
+	]
+}

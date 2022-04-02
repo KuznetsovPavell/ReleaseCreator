@@ -1,0 +1,88 @@
+﻿RepoHandler.cs: Bars.GitUtils.RepoHandler.DiffBetweenTagsWEB(string tagOld, string tagNew)
+foreach (var item in changesFiles)
+{...
+// outValue = String.Format("WEB - {0} = {1} ({2}+ and {3}-)  \t  Status: {4} \t OldPath: {5}",
+
+//outValue = String.Format("{0}\t{4}\t{5}",
+//    item.LinesAdded + item.LinesDeleted,
+//    item.LinesAdded,
+//    item.LinesDeleted,
+//    item.Status,
+//    );
+//                if (pec.Status == ChangeKind.Renamed || 1==1)
+//                    Console.WriteLine(outValue);
+-----------------------------------------------------------------------------------------------------------------------------------------
+Variables.cs:
+namespace ReleaseMaker
+{
+    internal class Variables         // Static Params
+    {
+        public Dictionary<string, string> VarDict = new();
+
+        public string SchemsList = "";
+
+        public Dictionary<string, string> LogPassDict = new(); // Key - login, Velue - pass
+        public List<string> RepoDirectories = new();
+        /*        public string tagOld = "";// "TestRelease_8.0.5"; "TestRelease_8.0.5"; "FatcaCloud.8.0.5"; "#COBUMMFO-18309#"
+                                           // "TestRelease_PROJ_13.0.030"; "TestRelease_PROJ_13.0.028" 
+                public string tagNew = "";  // "test"; repositoryProj;
+        */
+    }
+}
+-----------------------------------------------------------------------------------------------------------------------------------------
+Program.cs
+// --------------------  WEB
+installStopLine = $"{releaseNo}({tagOld}-{tagNew})";
+
+// Необходимо хотя бы на одном файле (sql? web? web_rozdrib) использлвать AppendAllText вместо WriteAllText,
+// иначе может сложиться ситуация, когда <Файл> до записи installStopLine и после будут одинаковые.
+// В этом случае Commit выдаст исключение, что отслеживаемые файлы не изменились, фиксировать нечего.
+// В Python: sql файл - дописывается, web файл - замещается.
+-----------------------------------------------------------------------------------------------------------------------------------------
+varDict.Add("RepositoryUser", "pavlo.kuznetsov");           //"BARS"
+            varDict.Add("RepositoryPass", "+Zse4M55(");     //"barsbars"  
+            varDict.Add("RepositoryProj", "test");          //"FATCA_CLOUD"
+-----------------------------------------------------------------------------------------------------------------------------------------
+                -= START =-
+                 PARAMETRS
+string tagOld = args[0]; //tagFrom
+string tagNew = args[1]; //tagTo
+string releaseNo = args[2];
+string targetBranch = args[3];
+string dbType = args[4];
+
+//ORA 
+TestRelease_PROJ_13.0.030 test 8.0.6 test ORA
+
+// PSQL
+e5b14ce963bbab3070dcdac7538ea2cf1ca9313a dev 0.0.1 dev PSQL
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

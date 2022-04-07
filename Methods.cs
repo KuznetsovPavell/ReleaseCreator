@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 using System.Text.RegularExpressions;
 
-// Общий функционал и переменные.
-// Если нет пароля
+//+EC Общий функционал и переменные.
+//+EC Если нет пароля
 
 namespace ReleaseMaker
 {
@@ -12,10 +12,17 @@ namespace ReleaseMaker
         internal static void Start()
         {
             ValToVar();
-            Logging(message: "Start operation."); // Make Log File
+            CreateReleaseDir();
+            Logging(message: "-=Start=-"); // Logging process.
+        }
+        internal static void CreateReleaseDir() // Make main release dir
+        {
+            if (Directory.Exists(valTOvar["ReleasePath"].ToLower()))
+                Directory.Delete(valTOvar["ReleasePath"].ToLower(), true);
+            Directory.CreateDirectory(valTOvar["ReleasePath"].ToLower());
         }
 
-        // Variables
+        //+EC Variables
         protected readonly static Dictionary<string, string> logPassDict = new();
         protected readonly static List<string> repoDirectories = new();
 
@@ -33,16 +40,14 @@ namespace ReleaseMaker
         internal static ModelJson parJSON;
         internal static string tagOld;
         internal static string tagNew;
+        internal static string projectName;
 
-        internal static Dictionary<string, string> valTOvar = new(); // Словарь основных параметров
+        internal static Dictionary<string, string> valTOvar = new(); //+EC Словарь основных параметров
 
         internal static void Logging(string message)
         {
-            // Create Main Rlease Directory
-            if (!Directory.Exists(valTOvar["ReleasePath"].ToLower()))
-                Directory.CreateDirectory(valTOvar["ReleasePath"].ToLower());
-
             Console.WriteLine(message);
+
             if (File.Exists(valTOvar["LogFile"]))
                 File.AppendAllText(valTOvar["LogFile"], $"{DateTime.Now:G} {message}\n");
             else
@@ -54,7 +59,6 @@ namespace ReleaseMaker
             parJSON = MakeParamsFromJSON();
             RepoPrms();
 
-            string projectName = "MMFO";
             string schemsList = "";
             foreach (var proj in parJSON.Project)
             {
@@ -83,13 +87,12 @@ namespace ReleaseMaker
             if (dbType == "ORA")
             {
                 valTOvar.Add("SchemsList", schemsList.Remove(schemsList.Length - 2));
-                valTOvar.Add("RepositoryProj", "test");
             }
         }
         internal static void RepoPrms()
         {
-            valTOvar.Add("RepositoryPath", parJSON.GitRepoDir); // RepositoryPath
-            foreach (var conn in parJSON.Dbconnect)             // ReleasePath, DbName,...   
+            valTOvar.Add("RepositoryPath", parJSON.GitRepoDir); //+EC RepositoryPath
+            foreach (var conn in parJSON.Dbconnect)             //+EC ReleasePath, DbName,...   
             {
                 if (conn.TargetBranch == targetBranch)
                 {
@@ -154,11 +157,11 @@ namespace ReleaseMaker
             return "begin\nbars.bc.go('/');\nexception when others then\nif sqlcode in (100, -01403, -04068, -04061, -04065, -06508)"
                 + " then null; else raise; end if;\nend;\n/";
         }
-        internal static string SelectInvalids(string sl) // Make selectInvalids
+        internal static string SelectInvalids(string sl) //+EC Make selectInvalids
         {
             return "select owner, object_name, object_type \nfrom all_objects a where a.status = 'INVALID' and a.owner in (" + sl + ")\norder by owner, object_type;\n\n";
         }
-        internal static string SelectErrors(string sl) // Make selectErrors
+        internal static string SelectErrors(string sl) //+EC Make selectErrors
         {
             return "select owner, type, name, line, position, text, sequence \nfrom all_errors\nwhere owner in (" + sl + ")\norder by  owner, type, name;\n\n";
         }
@@ -178,7 +181,7 @@ namespace ReleaseMaker
         }
         internal static ModelJson MakeParamsFromJSON()
         {
-            // Read JSON and Make Params from JSON
+            //+EC Read JSON and Make Params from JSON
             var path = Path.Combine(Environment.CurrentDirectory, "params.json");
             var json = File.ReadAllText(path);
 
@@ -189,7 +192,7 @@ namespace ReleaseMaker
             string selectInvalids = SelectInvalids(vTov["SchemsList"]);
             string selectErrors = SelectErrors(vTov["SchemsList"]);
 
-            // Head
+            //+EC Head
             string installSql = "@params.sql\n\nset verify off\nset echo off\nset serveroutput on size 1000000";
             installSql += $"\nspool log{Path.DirectorySeparatorChar}install_(&&dbname).log\nset lines 3000\nset SQLBL on\nset timing on";
             installSql += $"\n\n\ndefine releaseName={vTov["ReleaseName"]}\n\n\n";
@@ -198,7 +201,7 @@ namespace ReleaseMaker
             installSql += "\nprompt ...\n\n" + selectInvalids + "prompt ...\nprompt ... calculating checksum for bars objects before install";
             installSql += "\nprompt ...\nexec bars.bars_release_mgr.install_begin('&&release_name');\n\n";
 
-            // Body
+            //+EC Body
             string currentSqlSchem = "";
             string[] lineItems;
             string srcFile;
@@ -247,7 +250,7 @@ namespace ReleaseMaker
                 installSql += $"prompt  >> schema {item.Key}\n\nEXECUTE sys.UTL_RECOMP.RECOMP_SERIAL('{item.Key}');\n\n";
             }
 
-            // Botom
+            //+EC Botom
             installSql += "\n\nprompt ...\nprompt ... calculating checksum for bars objects after install\nprompt ... \n\n";
             installSql += "exec bars.bars_release_mgr.install_end('&&releaseName');\n\nprompt ...\n";
             installSql += $"prompt ... invalid objects after install\nprompt ...\n\n{selectInvalids}\n\n";
@@ -259,13 +262,13 @@ namespace ReleaseMaker
             return installSql;
         }
 
-        internal static int CountWord(string source, string search) // Подсчитывает количество вхождений search в source
+        internal static int CountWord(string source, string search) //+EC Подсчитывает количество вхождений search в source
         {
             string pattern = $"\\b{Regex.Escape(search)}\\b";
             return new Regex(pattern, RegexOptions.IgnoreCase).Matches(source).Count;
         }
 
-        internal static List<string> SortArr(string source, string filter)  // Сортировка по заданному списку
+        internal static List<string> SortArr(string source, string filter) //+EC Сортировка по заданному списку
         {
             List<string> sourceList = source.Replace(" ", "").Split(",").Cast<string>().ToList();
             string[] arrFilter = filter.Replace(" ", "").Split(",");
@@ -279,7 +282,7 @@ namespace ReleaseMaker
             return outList;
         }
 
-        internal static string EntryNum(string pInput, char pChar, int entry) // Возвращает строку (pInput) отсечённую по номеру вхождения (entry) символа (pChar)
+        internal static string EntryNum(string pInput, char pChar, int entry) //+EC Возвращает строку (pInput) отсечённую по номеру вхождения (entry) символа (pChar)
         {
             string vInput = pInput;
             int pos = 0;

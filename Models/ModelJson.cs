@@ -6,24 +6,34 @@
 #nullable disable
         [Newtonsoft.Json.JsonProperty("jira_url")]
         public string JiraURL { get; set; }
+
         [Newtonsoft.Json.JsonProperty("jira_login")]
         public string JiraLogin { get; set; }
+
         [Newtonsoft.Json.JsonProperty("jira_pass")]
         public string JiraPass { get; set; }
+        
         [Newtonsoft.Json.JsonProperty("gmail_login")]
         public string GmailLogin { get; set; }
+        
         [Newtonsoft.Json.JsonProperty("gmail_pass")]
         public string GmailPass { get; set; }
+        
         [Newtonsoft.Json.JsonProperty("git_repo_dir")]
         public string GitRepoDir { get; set; }
+        
         [Newtonsoft.Json.JsonProperty("releases_dir")]
         public string ReleasesDir { get; set; }
+        
         [Newtonsoft.Json.JsonProperty("task_file")]
         public string TaskFile { get; set; }
+        
         [Newtonsoft.Json.JsonProperty("release_task_file")]
         public string ReleaseTaskFile { get; set; }
+        
         [Newtonsoft.Json.JsonProperty("ord_list_obj_psql")]
         public string OrdListObjPSQL { get; set; }
+        
         public DbConnect[] Dbconnect { get; set; }
         public Project[] Project { get; set; }
     }

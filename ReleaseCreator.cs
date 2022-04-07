@@ -2,7 +2,8 @@
 using System.Text;
 using LibGit2Sharp;
 
-// TODO Доделать valTOvar.Add("RepositoryProj", "PRJ-ORACLE19C_P2"); Видимо это ветка, как tagTo(tagNew)
+// "+EC" -> (Explanatory comment) Пояснювальний коментар
+
 namespace ReleaseMaker
 {
     class GitRepo : Methods
@@ -10,23 +11,24 @@ namespace ReleaseMaker
 #nullable disable
         public static void Main(string[] args)
         {
-            tagOld = args[0]; //tagFrom
-            tagNew = args[1]; //tagTo
+            tagOld = args[0]; //+EC tagFrom
+            tagNew = args[1]; //+EC tagTo
             var tagFrom = tagOld;
             var tagTo = tagNew;
 
             releaseNo = args[2];
-            targetBranch = args[3];
-            dbType = args[4];
-            //string tagNew = "test";
+            projectName = args[3];
+            targetBranch = args[4];
+            dbType = args[5];
+            //+RC string tagNew = "test";
 
             valTOvar.Add("TargetBranch", targetBranch);
 
             Start();
-            // Import Codepage
+            //+EC Import Codepage
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
-            // Make Diff Repo
+            //+EC Make Diff Repo
             var rh = new RepoHandler(valTOvar["RepositoryPath"], valTOvar["RepositoryUser"], valTOvar["RepositoryPass"]);
 
             Repository repo = new(valTOvar["RepositoryPath"]);
@@ -35,32 +37,31 @@ namespace ReleaseMaker
             if (dbType == "ORA")
             {
 
-                rh.CheckoutBranch(valTOvar["RepositoryProj"]);
+                rh.CheckoutBranch(targetBranch);
                 rh.PullBranch();
 
                 var diffOut = rh.DiffBetweenTagsSQL(tagFrom, tagTo);
 
-                // --------------------  SQL
-                //                string itemVal;
+                //+EC --------------------  SQL
                 foreach (var diff in diffOut)
                 {
                     string itemVal = diff.ToString()[2..].ToLower().Replace("\\", "/").Replace("\\\\", "/").Replace('/', Path.DirectorySeparatorChar);
 
-                    // File Destination
+                    //+EC File Destination
                     if (filesSQLDict.Contains(itemVal))
                         Logging($"File {itemVal} is duplicated.");
                     else
                         filesSQLDict.Add(itemVal);
 
-                    // Directoty Destination
+                    //+EC Directoty Destination
                     if (!schemDiffListArr.Contains(itemVal[..itemVal.IndexOf("\\")].ToUpper()))
                         schemDiffListArr.Add(itemVal[..itemVal.IndexOf("\\")].ToUpper());
                 }
 
-                // Make install.sql
+                //+EC Make install.sql
                 string installSql = MakeInstallSQL(valTOvar, filesSQLDict);
 
-                // Create Files
+                //+EC Create Files
                 File.WriteAllText(valTOvar["ReleasePath"] + Path.DirectorySeparatorChar + "sql" + Path.DirectorySeparatorChar + "install.bat",
                                   CreateBat(), Encoding.GetEncoding("windows-1251"));
                 File.WriteAllText(valTOvar["ReleasePath"] + Path.DirectorySeparatorChar + "sql" + Path.DirectorySeparatorChar + "bc_go.sql",
@@ -77,7 +78,7 @@ namespace ReleaseMaker
                 if (installStopLine != gitRepoInstallFile[^1])
                     File.AppendAllText(valTOvar["RepositoryPath"] + Path.DirectorySeparatorChar + "sql" + Path.DirectorySeparatorChar + "install.sql", "\n" + installStopLine, Encoding.UTF8);
 
-                // --------------------  WEB
+                //+EC --------------------  WEB
                 installStopLine = $"{releaseNo}({tagOld}-{tagNew})";
 
                 fileToRepoAdd = "web" + Path.DirectorySeparatorChar + "barsroot" + Path.DirectorySeparatorChar + "version.abs";
@@ -107,24 +108,25 @@ namespace ReleaseMaker
 
                 foreach (var diffLine in diffSLine)
                 {
-                    // M.A.R.D.
-                    //--Added & Modified & Renamed--//
+                    //+EC M.A.R.D.
+                    //+EC --Added & Modified & Renamed-- //
                     if (diffLine.Item3 == ChangeKind.Added || diffLine.Item3 == ChangeKind.Modified || diffLine.Item3 == ChangeKind.Renamed)
                     {
                         dstFile = Path.Combine(valTOvar["ReleasePath"], diffLine.Item1.ToLower());
                         srcFile = Path.Combine(valTOvar["RepositoryPath"], diffLine.Item1);
                         dstPath = dstFile[..dstFile.LastIndexOf(Path.DirectorySeparatorChar)];
-                        // create directory if it not exists 
+                        //+EC create directory if is not exists 
                         if (!Directory.Exists(dstPath))
                             Directory.CreateDirectory(dstPath.ToLower());
 
-                        // Copy file from repository to release
+                        //+EC Copy file from repository to release
                         if (File.Exists(srcFile))
                             File.Copy(srcFile, dstFile, true);
                         else
                             Logging($"File {srcFile} not exists.");
                     }
-                    //--Deleted & Renamed--//
+                    //+EC --Deleted & Renamed-- //
+
                     if (diffLine.Item3 == ChangeKind.Deleted || diffLine.Item3 == ChangeKind.Renamed)
                     {
                         if (diffLine.Item2.Length > 0)
@@ -194,7 +196,7 @@ namespace ReleaseMaker
 
                 string[] orderObjects = valTOvar["OrdListObjPSQL"].Replace(" ", "").Split(",");
 
-                // Create install.psql
+                //+EC Create install.psql
                 foreach (var schem in schemas)
                 {
                     if (curPSQLPath != schem[..schem.IndexOf("/")])
@@ -222,8 +224,7 @@ namespace ReleaseMaker
             if (dbType != "ORA" && dbType != "PSQL")
                 Logging("Database type not defined.");
 
-
-            Logging(message: "Operation completed.");
+            Logging(message: "-=End=-");
         }
     }
 }

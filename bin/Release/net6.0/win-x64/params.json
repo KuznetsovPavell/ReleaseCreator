@@ -26,6 +26,13 @@
 			}
 		},
 		{
+			"target_branch": "PRJ-ORACLE19C_P2",
+			"release_name": "PrjOracle19C_P2",
+			"oracle": {
+				"db_name": "OBMMFOT"
+			}
+		},
+		{
 			"target_branch": "sdo",
 			"release_name": "Test_update",
 			"postgres": {

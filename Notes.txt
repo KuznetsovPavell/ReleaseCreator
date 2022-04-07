@@ -52,7 +52,7 @@ string targetBranch = args[3];
 string dbType = args[4];
 
 //ORA 
-TestRelease_PROJ_13.0.030 test 8.0.6 test ORA
+TestRelease_PROJ_13.0.030 test 8.0.6 MMFO test ORA
 
 // PSQL
 e5b14ce963bbab3070dcdac7538ea2cf1ca9313a dev 0.0.1 dev PSQL
